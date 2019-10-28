@@ -103,20 +103,10 @@ class BuildTps:
         #shutil.copy(folderPath, self.resPath + )
         CMD = 'texturePacker ' + targetBasePath + folderName + ".tps"
         print("+++++++++++++++++++++")
-        #os.system(commondStr)
-        proc = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=-1)
-        proc.wait()
-        stream_stdout = io.TextIOWrapper(proc.stdout, encoding='utf-8')
-        stream_stderr = io.TextIOWrapper(proc.stderr, encoding='utf-8')
+        result=os.system(CMD)
 
-        str_stdout = str(stream_stdout.read())
-        str_stderr = str(stream_stderr.read())
-        
-        print("-----------------------", str_stdout)
-        print("-----------------------", str_stderr)
-
-        if "error" in str_stderr:
-            tkinter.messagebox.showinfo(title='错误',message=str_stderr) 
+        if result!=0:
+            tkinter.messagebox.showinfo(title='错误',message="生成失败，报错信息请查看控制台") 
         else:
             tkinter.messagebox.showinfo(title='成功',message="生成成功 "+ self.resPath)
 
@@ -245,7 +235,7 @@ def saveConfig():
 readSaved();
 
 poxX = 20
-posY = 50
+posY = 60
 
 # 散图路径
 tk.Button(window,text = "散图路径", command = selectPath).place(x=poxX, y=posY)
@@ -257,7 +247,7 @@ tk.Button(window,text = "生成路径", command = selectOutPath).place(x=poxX, y
 tk.Entry(window, textvariable = outPath, width= 40).place(x=poxX + 100, y=posY - 4)
 
 
-posY = 150
+posY = 160
 # 生存路径
 tk.Label(window,text = "贴图尺寸").place(x=poxX, y=posY)
 tk.Entry(window, textvariable = picWidth, width= 5).place(x=poxX + 100, y=posY - 4)
@@ -266,10 +256,12 @@ tk.Label(window,text = "width").place(x=poxX + 100, y=posY+25)
 
 tk.Entry(window, textvariable = picHeight, width= 5).place(x=poxX + 250, y=posY - 4)
 tk.Label(window,text = "px").place(x=poxX + 310, y=posY)
-tk.Label(window,text = "width").place(x=poxX + 250, y=posY+25)
+tk.Label(window,text = "height").place(x=poxX + 250, y=posY+25)
 
+tk.Label(window,text = "1.先安装TexturePacker 2.菜单->文件->安装命令行工具").place(x=poxX, y=0)
+tk.Label(window,text = "如有任何问题，请联系fuchuanjian@bytedance.com").place(x=poxX, y=20)
 # 生成精灵
-tk.Button(window,text = "生成精灵", command = onClickCreate, fg='green',font=('Arial', 25)).place(x=180, y=230)
+tk.Button(window,text = "生成精灵", command = onClickCreate, fg='green',font=('Arial', 20)).place(x=170, y=220)
 
 
 
