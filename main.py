@@ -93,7 +93,7 @@ class BuildTps:
         tpsHandle.close()
 
         tpsContent = tpsContent.replace('{textureFileName}', folderName + ".png")
-        tpsContent = tpsContent.replace('{dataFileName}', folderName + ".plist")
+        tpsContent = tpsContent.replace('{dataFileName}', folderName + ".paper2dsprites")
         tpsContent = tpsContent.replace('{filename}',"folder")
         tpsContent = tpsContent.replace('{maxSizeWidth}',self.width)
         tpsContent = tpsContent.replace('{maxSizeHeight}',self.height)
@@ -110,7 +110,7 @@ class BuildTps:
         else:
             tkinter.messagebox.showinfo(title='成功',message="生成成功 "+ self.resPath)
 
-        plistHandle = open(targetBasePath + folderName + ".plist")
+        plistHandle = open(targetBasePath + folderName + ".paper2dsprites")
         plistContent = plistHandle.read()
         plistHandle.close()
 
@@ -121,7 +121,7 @@ class BuildTps:
             os.makedirs(targetResFolderPath)
 
         plistContent = re.sub('\$TexturePacker:.*\$', 'lede', plistContent)
-        open(targetResFolderPath +  folderName + ".plist", "w").write(plistContent)
+        open(targetResFolderPath +  folderName + ".paper2dsprites", "w").write(plistContent)
 
        
         shutil.copy(targetBasePath + folderName + ".png", targetResFolderPath + folderName + ".png")
