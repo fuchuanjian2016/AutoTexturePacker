@@ -92,8 +92,8 @@ class BuildTps:
         tpsContent = tpsHandle.read()
         tpsHandle.close()
 
-        tpsContent = tpsContent.replace('{textureFileName}', folderName + ".png")
-        tpsContent = tpsContent.replace('{dataFileName}', folderName + ".paper2dsprites")
+        tpsContent = tpsContent.replace('{textureFileName}', folderName + "{n}.png")
+        tpsContent = tpsContent.replace('{dataFileName}', folderName + "{n}.paper2dsprites")
         tpsContent = tpsContent.replace('{filename}',"folder")
         tpsContent = tpsContent.replace('{maxSizeWidth}',self.width)
         tpsContent = tpsContent.replace('{maxSizeHeight}',self.height)
@@ -110,21 +110,24 @@ class BuildTps:
         else:
             tkinter.messagebox.showinfo(title='成功',message="生成成功 "+ self.resPath)
 
-        plistHandle = open(targetBasePath + folderName + ".paper2dsprites")
-        plistContent = plistHandle.read()
-        plistHandle.close()
+        #plistHandle = open(targetBasePath + folderName + ".paper2dsprites")
+        #plistContent = plistHandle.read()
+        #plistHandle.close()
 
         targetResFolderPath = self.resPath + folderRelativePath + "/"
 
 
-        if not os.path.exists(targetResFolderPath):
-            os.makedirs(targetResFolderPath)
+        if os.path.exists(targetResFolderPath):
+            shutil.rmtree(targetResFolderPath)
 
-        plistContent = re.sub('\$TexturePacker:.*\$', 'lede', plistContent)
-        open(targetResFolderPath +  folderName + ".paper2dsprites", "w").write(plistContent)
+        #plistContent = re.sub('\$TexturePacker:.*\$', 'lede', plistContent)
+        #open(targetResFolderPath +  folderName + ".paper2dsprites", "w").write(plistContent)
 
        
-        shutil.copy(targetBasePath + folderName + ".png", targetResFolderPath + folderName + ".png")
+        #shutil.copytree(targetBasePath + folderName + ".png", targetResFolderPath + folderName + ".png")
+
+
+        shutil.copytree(targetBasePath, targetResFolderPath, ignore=shutil.ignore_patterns('*.tps', 'folder'))
 
         if os.path.exists(self.tempPath):
             shutil.rmtree(self.tempPath)
