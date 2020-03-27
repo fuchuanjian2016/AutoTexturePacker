@@ -72,18 +72,25 @@ class BuildTps:
         return False
 
     def buildFolderTps(self,folderPath,index):
-        folderNameArr = folderPath.split('/')
+        print("--------------------------")
+        print ("sourcePath "+self.sourcePath)
+        if folderPath.find('\\') > 0:
+        	folderNameArr = folderPath.split('\\')
+        else:
+        	folderNameArr = folderPath.split('/')
         folderName = folderNameArr[len(folderNameArr)-1]
-
-        
+        print("folderPath "+ folderPath)
+        print ("folderName "+ folderName)
 
         folderRelativePath = folderPath[len(self.sourcePath):]
+        print("folderRelativePath "+ folderRelativePath)
         resRelativePath = self.resFileName+"/" + folderRelativePath
-
+        print("resRelativePath "+ resRelativePath)
         targetBasePath = self.tempPath + "project"+str(index)+"/"
         targetFolderPath = targetBasePath + "/folder/" + folderRelativePath
 
-        print ("buildTps "+ resRelativePath)
+        print ("targetBasePath "+ targetBasePath)
+        print ("targetFolderPath "+ targetFolderPath)
         self.dir_copyFolder(folderPath, targetFolderPath)
 
 
@@ -97,9 +104,16 @@ class BuildTps:
         tpsContent = tpsContent.replace('{filename}',"folder")
         tpsContent = tpsContent.replace('{maxSizeWidth}',self.width)
         tpsContent = tpsContent.replace('{maxSizeHeight}',self.height)
-        open(targetBasePath + folderName + ".tps", "w").write(tpsContent)
+        TPSPath = targetBasePath + folderName + ".tps"
+        print ("TPSPath "+ TPSPath)
+        try:
+        	open(TPSPath, "w").write(tpsContent)
+        except IOError:
+        	tkinter.messagebox.showinfo(title='错误',message="路径无效"+TPSPath)
+        	return
+        
 
-
+     
         #shutil.copy(folderPath, self.resPath + )
         CMD = 'texturePacker ' + targetBasePath + folderName + ".tps"
         print("+++++++++++++++++++++")
