@@ -94,24 +94,27 @@ class BuildTps:
         self.dir_copyFolder(folderPath, targetFolderPath)
 
         FileSize = sum([len(x) for _, _, x in os.walk(os.path.dirname(targetFolderPath))])
-        #替换模板
         
-        if FileSize > 1:
-            tpsHandle = open("template.tps")
-            print("Size == 1")
-        else:
-            tpsHandle = open("template_one.tps")
-            print("Size == ", FileSize)
+        #替换模板
+        tpsHandle = open("template.tps")
+        print("Size == 1")
+
         
         tpsContent = tpsHandle.read()
         tpsHandle.close()
-
-        if FileSize > 1:
-            tpsContent = tpsContent.replace('{textureFileName}', folderName + "{n}.png")
-            tpsContent = tpsContent.replace('{dataFileName}', folderName + "{n}.paper2dsprites")
-        else:
-            tpsContent = tpsContent.replace('{textureFileName}', folderName + ".png")
-            tpsContent = tpsContent.replace('{dataFileName}', folderName + ".paper2dsprites")
+        tpsContent = tpsContent.replace('{textureFileName}', folderName + "{n}.png")
+        tpsContent = tpsContent.replace('{dataFileName}', folderName + "{n}.paper2dsprites")
+        # if FileSize > 1:
+        #     tpsContent = tpsContent.replace('{textureFileName}', folderName + "{n}.png")
+        #     tpsContent = tpsContent.replace('{dataFileName}', folderName + "{n}.paper2dsprites")
+        #     tpsContent = tpsContent.replace('{Param_extrude}', "0")
+        #     tpsContent = tpsContent.replace('{Param_Margin}', "0")
+        # else:
+        #     tpsContent = tpsContent.replace('{textureFileName}', folderName + ".png")
+        #     tpsContent = tpsContent.replace('{dataFileName}', folderName + ".paper2dsprites")
+        #     tpsContent = tpsContent.replace('{Param_extrude}', "0")
+        #     tpsContent = tpsContent.replace('{Param_Margin}', "0")
+            
         tpsContent = tpsContent.replace('{filename}',"folder")
         tpsContent = tpsContent.replace('{maxSizeWidth}',self.width)
         tpsContent = tpsContent.replace('{maxSizeHeight}',self.height)
